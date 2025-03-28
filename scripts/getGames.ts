@@ -18,7 +18,7 @@ for (let week = MIN_WEEKS; week <= MAX_WEEKS; week++) {
 	allGames = allGames.concat(games);
 }
 
-const gamesFile = './games.json';
+const gamesFile = './data/games.json';
 const gamesData = JSON.stringify(allGames, null, 2);
 
 await writeFile(gamesFile, gamesData);

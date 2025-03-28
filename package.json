@@ -4,7 +4,8 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"getGamesOfLeague": "tsx ./scripts/getGamesOfLeague.ts"
+		"getGames": "tsx ./scripts/getGames.ts",
+		"getData": "tsx ./scripts/getData.ts"
 	},
 	"type": "module",
 	"author": "Isra",
