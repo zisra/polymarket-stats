@@ -1,0 +1,19 @@
+{
+	"name": "polymarket-stats",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"getGamesOfLeague": "tsx ./scripts/getGamesOfLeague.ts"
+	},
+	"type": "module",
+	"author": "Isra",
+	"license": "ISC",
+	"dependencies": {
+		"@types/node": "^22.13.14",
+		"cheerio": "^1.0.0"
+	},
+	"devDependencies": {
+		"tsx": "^4.19.3"
+	}
+}
