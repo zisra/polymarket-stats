@@ -4,8 +4,9 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"getGames": "tsx ./scripts/getGames.ts",
-		"getData": "tsx ./scripts/getData.ts"
+		"getGames": "tsx ./scripts/getGames",
+		"getData": "tsx ./scripts/getData",
+		"profitability": "tsx ./scripts/profitability"
 	},
 	"type": "module",
 	"author": "Isra",
@@ -15,6 +16,6 @@
 		"cheerio": "^1.0.0"
 	},
 	"devDependencies": {
-		"tsx": "^4.19.3"
+		"tsx": "^4.19.4"
 	}
 }

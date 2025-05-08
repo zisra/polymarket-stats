@@ -3,7 +3,7 @@ import { writeFile } from 'node:fs/promises';
 
 const LEAGUE = 'nba';
 const MIN_WEEKS = 1;
-const MAX_WEEKS = 22;
+const MAX_WEEKS = 28;
 
 let allGames: string[] = [];
 
@@ -18,7 +18,7 @@ for (let week = MIN_WEEKS; week <= MAX_WEEKS; week++) {
 	allGames = allGames.concat(games);
 }
 
-const gamesFile = './data/games.json';
+const gamesFile = './nba-data/games.json';
 const gamesData = JSON.stringify(allGames, null, 2);
 
 await writeFile(gamesFile, gamesData);

@@ -1,7 +1,7 @@
 import { writeFile, readFile } from 'node:fs/promises';
 import { getNextData, loadUrl } from '../src';
 
-const gamesFilePath = './data/games.json';
+const gamesFilePath = './nba-data/games.json';
 const rawGamesData = await readFile(gamesFilePath, 'utf-8');
 const gameUrls = JSON.parse(rawGamesData) as string[];
 
@@ -54,12 +54,12 @@ for (const gameUrl of gameUrls) {
 	allGameResults.push(gameResult);
 
 	const completeGamesData = await readFile(
-		'./data/gamesComplete.json',
+		'./nba-data/gamesComplete.json',
 		'utf-8'
 	);
 	const parsedCompleteGames = JSON.parse(completeGamesData);
 
 	parsedCompleteGames.push(gameResult);
 	const updatedGamesDataString = JSON.stringify(parsedCompleteGames, null, 2);
-	await writeFile('./data/gamesComplete.json', updatedGamesDataString);
+	await writeFile('./nba-data/gamesComplete.json', updatedGamesDataString);
 }
