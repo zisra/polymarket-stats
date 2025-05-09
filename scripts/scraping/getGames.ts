@@ -1,4 +1,4 @@
-import { getLeagueUrl, getNextData, loadUrl } from '../src';
+import { getLeagueUrl, getNextData, loadUrl } from '../../src';
 import { writeFile } from 'node:fs/promises';
 
 const LEAGUE = 'nba';

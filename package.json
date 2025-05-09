@@ -4,18 +4,18 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"getGames": "tsx ./scripts/getGames",
-		"getData": "tsx ./scripts/getData",
+		"getGames": "tsx ./scripts/scraping/getGames",
+		"getData": "tsx ./scripts/scraping/getData",
 		"profitability": "tsx ./scripts/profitability"
 	},
 	"type": "module",
 	"author": "Isra",
 	"license": "ISC",
 	"dependencies": {
-		"@types/node": "^22.13.14",
 		"cheerio": "^1.0.0"
 	},
 	"devDependencies": {
+		"@types/node": "^22.13.14",
 		"tsx": "^4.19.4"
 	}
 }

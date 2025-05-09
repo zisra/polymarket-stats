@@ -1,4 +1,4 @@
-import { BetPreferences, BetResult, Game } from './types';
+import { BetPreferences, BetResult } from './types';
 
 function shuffleArray<T>(array: T[]): T[] {
 	for (let i = array.length - 1; i > 0; i--) {
@@ -14,6 +14,7 @@ export function calculateBettingProfit({
 	upperThreshold,
 	includeOutputs = false,
 	games,
+	excludeSkippedBets,
 }: BetPreferences) {
 	if (!Array.isArray(games) || games.length === 0)
 		throw new Error('Invalid or empty JSON data');
@@ -56,17 +57,31 @@ export function calculateBettingProfit({
 	const returnOnInvestment = ((totalProfit / totalStake) * 100 || 0).toFixed(2);
 
 	if (includeOutputs) {
-		console.table(
-			results.map((r) => ({
+		if (excludeSkippedBets) {
+			let resultsTable = results
+				.filter((i) => i.profit !== 0)
+				.map((r) => ({
+					Game: r.question,
+					Probability: r.probability.toFixed(3),
+					Outcome: r.outcome.toFixed(3),
+					Stake: `$${r.stake.toFixed(2)}`,
+					Profit: `$${r.profit.toFixed(2)}`,
+					Won: r.won,
+				}));
+
+			console.table(resultsTable);
+		} else {
+			let resultsTable = results.map((r) => ({
 				Game: r.question,
 				Probability: r.probability.toFixed(3),
 				Outcome: r.outcome.toFixed(3),
 				Stake: `$${r.stake.toFixed(2)}`,
 				Profit: `$${r.profit.toFixed(2)}`,
-				EV: r.probability * r.profit - (1 - r.probability * r.stake),
 				Won: r.won,
-			}))
-		);
+			}));
+
+			console.table(resultsTable);
+		}
 
 		console.log('=== Summary ===');
 		console.log(`Total Games: ${games.length}`);
@@ -79,18 +94,18 @@ export function calculateBettingProfit({
 	return returnOnInvestment;
 }
 
-export function calculateBettingProfitOverfit(
-	{
-		stakePerGame = 100,
-		lowerThreshold,
-		upperThreshold,
-		includeOutputs = false,
-		games,
-	}: BetPreferences,
-	divisions: number
-) {
+export function calculateBettingProfitOverfit({
+	stakePerGame = 100,
+	lowerThreshold,
+	upperThreshold,
+	includeOutputs = false,
+	games,
+	divisions
+}: BetPreferences & {
+	divisions: number;
+}) {
 	games = shuffleArray(games);
-	const EXTRA_ITERATIONS = 100;
+	const EXTRA_ITERATIONS = 3;
 	if (divisions > games.length) {
 		throw new Error('Divisions cannot be greater than the number of games.');
 	}
@@ -107,6 +122,7 @@ export function calculateBettingProfitOverfit(
 					upperThreshold,
 					includeOutputs,
 					games: games.slice(start, end),
+					excludeSkippedBets: false,
 				})
 			);
 		}

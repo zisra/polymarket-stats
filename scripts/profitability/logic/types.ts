@@ -19,5 +19,6 @@ export type BetPreferences = {
 	lowerThreshold: number;
 	upperThreshold: number;
 	includeOutputs?: boolean;
+	excludeSkippedBets?: boolean;
 	games: Game[];
 };

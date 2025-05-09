@@ -1,5 +1,5 @@
 import { writeFile, readFile } from 'node:fs/promises';
-import { getNextData, loadUrl } from '../src';
+import { getNextData, loadUrl } from '../../src';
 
 const gamesFilePath = './nba-data/games.json';
 const rawGamesData = await readFile(gamesFilePath, 'utf-8');
