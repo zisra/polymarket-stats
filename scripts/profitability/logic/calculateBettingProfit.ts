@@ -55,6 +55,11 @@ export function calculateBettingProfit({
 	}
 
 	const returnOnInvestment = ((totalProfit / totalStake) * 100 || 0).toFixed(2);
+	const betsPlaced = results.filter((r) => r.stake > 0).length;
+	const successRate = (
+		(results.filter((r) => r.profit > 0).length / betsPlaced) *
+		100
+	).toFixed(2);
 
 	if (includeOutputs) {
 		if (excludeSkippedBets) {
@@ -84,14 +89,18 @@ export function calculateBettingProfit({
 		}
 
 		console.log('=== Summary ===');
-		console.log(`Total Games: ${games.length}`);
-		console.log(`Bets Placed: ${results.filter((r) => r.stake > 0).length}`);
+		console.log(`Total Games: ${results.length}`);
+		console.log(`Bets Placed: ${betsPlaced}`);
+		console.log(`Success Rate: ${successRate}%`);
 		console.log(`Total Stake: $${totalStake.toFixed(2)}`);
 		console.log(`Total Profit: $${totalProfit.toFixed(2)}`);
 		console.log(`ROI: ${returnOnInvestment}%`);
 	}
 
-	return returnOnInvestment;
+	return {
+		returnOnInvestment,
+		successRate,
+	};
 }
 
 export function calculateBettingProfitOverfit({
@@ -100,7 +109,7 @@ export function calculateBettingProfitOverfit({
 	upperThreshold,
 	includeOutputs = false,
 	games,
-	divisions
+	divisions,
 }: BetPreferences & {
 	divisions: number;
 }) {
@@ -110,7 +119,10 @@ export function calculateBettingProfitOverfit({
 		throw new Error('Divisions cannot be greater than the number of games.');
 	}
 
-	const returnsOnInvestment: string[] = [];
+	const returnsOnInvestment: {
+		returnOnInvestment: string;
+		successRate: string;
+	}[] = [];
 	for (let i = 0; i < divisions; i++) {
 		for (let j = 0; j < EXTRA_ITERATIONS; j++) {
 			const start = Math.floor((i * games.length) / divisions);
@@ -128,8 +140,16 @@ export function calculateBettingProfitOverfit({
 		}
 	}
 
-	return (
-		returnsOnInvestment.map(Number).reduce((a, b) => a + b, 0) /
-		returnsOnInvestment.length
-	).toFixed(2);
+	return {
+		returnOnInvestment: (
+			returnsOnInvestment
+				.map((n) => Number(n.returnOnInvestment))
+				.reduce((a, b) => a + b, 0) / returnsOnInvestment.length
+		).toFixed(2),
+		successRate: (
+			returnsOnInvestment
+				.map((n) => Number(n.successRate))
+				.reduce((a, b) => a + b, 0) / returnsOnInvestment.length
+		).toFixed(2),
+	};
 }

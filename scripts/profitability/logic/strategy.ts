@@ -42,12 +42,14 @@ export class Strategy {
 			i <= this.to + this.increment;
 			i += this.increment
 		) {
+			const result = calculateBettingProfit({
+				...this.strategy(i),
+				games,
+			});
 			results.push({
 				[this.name]: i.toFixed(3),
-				'ROI (%)': calculateBettingProfit({
-					...this.strategy(i),
-					games,
-				}),
+				'ROI (%)': result.returnOnInvestment,
+				'Success (%)': result.successRate,
 			});
 		}
 
@@ -71,13 +73,15 @@ export class Strategy {
 			i <= this.to + this.increment;
 			i += this.increment
 		) {
+			const result = calculateBettingProfitOverfit({
+				...this.strategy(i),
+				games,
+				divisions: divisions,
+			});
 			results.push({
 				[this.name]: i.toFixed(3),
-				'ROI (%)': calculateBettingProfitOverfit({
-					...this.strategy(i),
-					games,
-					divisions: divisions,
-				}),
+				'ROI (%)': result.returnOnInvestment,
+				'Success (%)': result.successRate,
 			});
 		}
 
