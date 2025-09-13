@@ -1,6 +1,5 @@
 import { getGames } from './logic/getGames';
 import { biasFactorStrategy } from './strategies/biasFactor';
-import { scaleFactorStrategy } from './strategies/scaleFactor';
 
 const games = await getGames('./nba-data/gamesComplete.json');
 
@@ -9,17 +8,6 @@ biasFactorStrategy.executeOverfit({
 	games,
 });
 
-scaleFactorStrategy.execute({
+biasFactorStrategy.execute({
 	games,
 });
-
-// biasFactorStrategy.executeFor({
-// 	variable: 2.6,
-// 	excludeSkippedBets: true,
-// 	games,
-// });
-
-// scaleFactorStrategy.executeFor({
-// 	games,
-// 	variable: 0,
-// });
